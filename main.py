@@ -16,9 +16,7 @@ def main():
     file_name = sys.argv[1]
 
     wav_obj = WavAnalyzer(file_name)
-    print(wav_obj)
     wav_obj.analyze()
-    print(wav_obj)
 
     graph = WavGraph(wav_obj)
     graph.show()
