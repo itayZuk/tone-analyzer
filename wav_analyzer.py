@@ -1,8 +1,8 @@
 """
 Wav file analyzer
 """
-import wave
 from typing import List
+import wave
 
 from numpy import average
 
@@ -24,10 +24,26 @@ class WavAnalyzer:
 
         self.is_analyzed: bool = False
         """Whether the wav file has been analyzed yet or not"""
-        self.n_channels: int
+        self.n_channels: int = self.wav_obj.getnchannels()
         """Number of channels"""
         self.chunk: int = 1024
         """Chunk size to average samples"""
+
+    def get_info(self) -> dict:
+        """
+        Retrieve information about the wav file (size, bitrate, sample width)
+
+        :return: Information about the wav file
+        """
+        info = {
+            'channels': self.n_channels
+        }
+        if self.is_analyzed:
+            info.update({})
+        else:
+            info.update({'NOTE': 'Analyze the wav object to retrieve mor info'})
+
+        return info
 
     def analyze(self) -> None:
         """
