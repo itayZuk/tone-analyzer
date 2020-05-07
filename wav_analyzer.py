@@ -26,6 +26,13 @@ class WavAnalyzer:
         """Whether the wav file has been analyzed yet or not"""
         self.n_channels: int = self.wav_obj.getnchannels()
         """Number of channels"""
+        self.sample_width: int = self.wav_obj.getsampwidth()
+        """Width of each sample in bytes"""
+        self.frame_rate: int = self.wav_obj.getframerate()
+        """Sampling frequency"""
+        self.n_frames: int = self.wav_obj.getnframes()
+        """Total number of frames"""
+
         self.chunk: int = 1024
         """Chunk size to average samples"""
 
@@ -36,7 +43,11 @@ class WavAnalyzer:
         :return: Information about the wav file
         """
         info = {
-            'channels': self.n_channels
+            'channels': self.n_channels,
+            'sample_width': self.sample_width,
+            'frame_rate': self.frame_rate,
+            'frame_count': self.n_frames,
+            'total_time': '%.2fs' % (self.n_frames / self.frame_rate)
         }
         if self.is_analyzed:
             info.update({})
@@ -85,6 +96,12 @@ class WavAnalyzer:
         data = self.wav_obj.readframes(self.chunk)
         while len(data) > 0:
             yield average(bytearray(data))
+
+    def close(self) -> None:
+        """
+        Close the wav file
+        """
+        self.wav_obj.close()
 
     def __repr__(self) -> str:
         if self.is_analyzed:
