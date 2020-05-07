@@ -17,7 +17,7 @@ class WavGraph:
         """
         self.wav_obj = wav_obj
 
-        pyplot.plot(list(self.wav_obj.get_frames(20)))
+        pyplot.plot(list(self.wav_obj.get_frames(800)))
         pyplot.ylabel('Song level')
         pyplot.show()
 
