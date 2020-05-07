@@ -3,12 +3,29 @@ A graph drawer
 """
 from matplotlib import pyplot
 
-
-def main():
-    pyplot.plot([1, 2, 3, 4])
-    pyplot.ylabel('some numbers')
-    pyplot.show()
+from wav_analyzer import WavAnalyzer
 
 
-if __name__ == '__main__':
-    main()
+class WavGraph:
+    """
+    Shows a graph of a parsed 'wav' file
+    """
+
+    def __init__(self, wav_obj: WavAnalyzer) -> None:
+        """
+        :param wav_obj: An analyzed wav file object
+        """
+        self.wav_obj = wav_obj
+
+        # pyplot.plot()
+        # pyplot.ylabel('Song level')
+        # pyplot.show()
+
+    def show(self):
+        """
+        Show the graph of the analyzes wav file
+        """
+        if self.wav_obj.is_analyzed:
+            pyplot.show()
+        else:
+            raise RuntimeError('Wav object not analyzed')
