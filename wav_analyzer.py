@@ -1,8 +1,8 @@
 """
 Wav file analyzer
 """
-from typing import List
 import wave
+from typing import List
 
 from numpy import average
 
@@ -86,7 +86,7 @@ class WavAnalyzer:
         while len(data) > 0:
             yield average(bytearray(data))
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         if self.is_analyzed:
             return f'<Analyzed wav object [{self.file_path}]>'
         return f'<Ready-to-analyze wav object [{self.file_path}]>'
