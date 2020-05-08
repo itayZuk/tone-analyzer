@@ -14,6 +14,7 @@ class WavAnalyzer:
 
     WAV_READ = 'rb'
     WAV_WRITE = 'wb'
+    BPS_TO_KBITPS = 125
 
     def __init__(self, file_path: str) -> None:
         """
@@ -47,7 +48,8 @@ class WavAnalyzer:
             'sample_width': self.sample_width,
             'frame_rate': self.frame_rate,
             'frame_count': self.n_frames,
-            'total_time': '%.2fs' % (self.n_frames / self.frame_rate)
+            'total_time': '%.2fs' % (self.n_frames / self.frame_rate),
+            'sample_rate': '%.2fkbit/s' % (self.n_channels * self.frame_rate * self.sample_width / self.BPS_TO_KBITPS)
         }
         if self.is_analyzed:
             info.update({})
