@@ -16,10 +16,15 @@ class WavGraph:
         :param wav_obj: An analyzed wav file object
         """
         self.wav_obj = wav_obj
-
-        pyplot.plot(list(self.wav_obj.get_frames(800)))
         pyplot.ylabel('Song level')
-        pyplot.show()
+
+        points = []
+        next_point = next(self.wav_obj.read_all())
+        while next_point is not None:
+            points.append(next_point)
+            next_point = next(self.wav_obj.read_all())
+        pyplot.plot([(self.wav_obj.chunk * i / self.wav_obj.frame_rate) for i in range(len(points))], points)
+        pyplot.axis([0, (self.wav_obj.n_frames / self.wav_obj.frame_rate), 0, 150])
 
     def show(self):
         """

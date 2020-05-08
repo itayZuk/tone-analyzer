@@ -2,7 +2,7 @@
 Wav file analyzer
 """
 import wave
-from typing import List
+from typing import List, Iterator
 
 from numpy import average
 
@@ -15,6 +15,7 @@ class WavAnalyzer:
     WAV_READ = 'rb'
     WAV_WRITE = 'wb'
     BPS_TO_KBITPS = 125
+    MAX_SAMPLES = 128
 
     def __init__(self, file_path: str) -> None:
         """
@@ -34,7 +35,7 @@ class WavAnalyzer:
         self.n_frames: int = self.wav_obj.getnframes()
         """Total number of frames"""
 
-        self.chunk: int = 1024
+        self.chunk: int = int(self.n_frames / self.MAX_SAMPLES)
         """Chunk size to average samples"""
 
     def get_info(self) -> dict:
@@ -91,13 +92,14 @@ class WavAnalyzer:
             frames.append(average(bytearray(data)))
         return frames
 
-    def read_all(self) -> float:
+    def read_all(self) -> Iterator[float]:
         """
-         Generator that yields the average value of all frames in the wav file
+        Generator that yields the average value of all frames in the wav file
         """
         data = self.wav_obj.readframes(self.chunk)
-        while len(data) > 0:
-            yield average(bytearray(data))
+        if not len(data):
+            yield None
+        yield average(bytearray(data))
 
     def close(self) -> None:
         """
