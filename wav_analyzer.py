@@ -15,7 +15,7 @@ class WavAnalyzer:
     WAV_READ = 'rb'
     WAV_WRITE = 'wb'
     BPS_TO_KBITPS = 125
-    MAX_SAMPLES = 128
+    MAX_POINTS = 128
 
     def __init__(self, file_path: str) -> None:
         """
@@ -35,7 +35,7 @@ class WavAnalyzer:
         self.n_frames: int = self.wav_obj.getnframes()
         """Total number of frames"""
 
-        self.chunk: int = int(self.n_frames / self.MAX_SAMPLES)
+        self.chunk: int = int(self.n_frames / self.MAX_POINTS)
         """Chunk size to average samples"""
 
     def get_info(self) -> dict:
